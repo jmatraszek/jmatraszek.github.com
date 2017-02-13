@@ -1,5 +1,6 @@
 extends: default.liquid
 title: Blog
+path: posts/
 route: posts
 ---
 
@@ -11,7 +12,7 @@ route: posts
   {{ post.date | date: "%b %-d, %Y" }}
     »
   <span class='post-title'>
-    <a href="{{ site.path }}{{ post.path }}">{{ post.title }}</a>
+    <a href="/{{ post.path }}">{{ post.title }}</a>
   </span>
 </div>
 
