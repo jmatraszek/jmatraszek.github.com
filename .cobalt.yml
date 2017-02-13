@@ -1,0 +1,11 @@
+name: Jakub Matraszek
+source: "src"
+dest: "build"
+ignore:
+  - .git/*
+  - build/*
+  - README.md
+drafts: _drafts
+rss: rss.xml
+description: Jakub Matraszek
+link: http://matraszek.net

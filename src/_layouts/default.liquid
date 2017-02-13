@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>{{ page.title }} - {{ title }}</title>
+   <link rel="stylesheet" type="text/css" href="{{ site.path }}/css/style.css" >
+   <link rel="alternate" type="application/atom+xml" href="{{ site.path }}/rss.xml" title="RSS">
+</head>
+<body data-route={{route}}>
+
+<div class="container">
+<header class="masthead">
+   <h3 class="masthead-title">
+     <a href="{{ site.path }}">{{ site.title }}</a>
+     <small>
+       &nbsp;&nbsp;&nbsp;<a href="{{ site.path }}/index.html">About</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="{{ site.path }}/posts/">Blog</a>
+     </small>
+     <small>
+       &nbsp;&nbsp;&nbsp;<a href="{{ site.path }}/rss.xml">Feed</a>
+     </small>
+   </h3>
+</header>
+
+<div id="content">
+  {{ content }}
+</div>
+
+</div><!-- .container -->
+</body>
+</html>
