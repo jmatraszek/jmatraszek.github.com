@@ -175,3 +175,16 @@ table tr:nth-child(odd) th {
 .post-date {
   color: #9a9a9a;
 }
+
+footer {
+  font-size: 15px;
+  width: 100%;
+  text-align: center;
+  color: grey;
+  font-weight: 200;
+  margin: 0 0 40px;
+}
+
+footer a, footer a:visited {
+  color: grey;
+}
