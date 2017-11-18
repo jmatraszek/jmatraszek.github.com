@@ -1,0 +1,195 @@
+{
+  "basics": {
+    "name": "Jakub Matraszek",
+    "label": "Software engineer",
+    "picture": "jakubmatraszek.jpg",
+    "email": "jakub.matraszek@gmail.com",
+    "phone": "(+48) 500 543 155",
+    "website": "http://matraszek.net",
+    "summary": "Backend developer with 7+ years of professional experience. Loves working on big, legacy systems with complicated business logic. Co-founder of one of the most efficient and fastest-growing animal advocacy group in Europe. Proficient with Ruby, but eager to learn something new. Currently investing his free time to master Rust.",
+    "location": {
+      "address": "ul. Bródnowska 12A/10",
+      "postalCode": "03-439",
+      "city": "Warsaw",
+      "countryCode": "PL"
+    },
+    "profiles": [
+      {
+        "network": "Twitter",
+        "username": "kubaxvx",
+        "url": "https://twitter.com/kubaxvx"
+      },
+      {
+        "network": "Github",
+        "username": "jmatraszek",
+        "url": "https://github.com/jmatraszek"
+      },
+      {
+        "network": "Instagram",
+        "username": "kubaxvx",
+        "url": "https://instagram.com/kubaxvx"
+      },
+      {
+        "network": "Linkedin",
+        "username": "jakub.matraszek",
+        "url": "https://github.com/jmatraszek"
+      }
+    ]
+  },
+  "work": [
+{
+      "company": "Upnext",
+      "position": "Software engineer",
+      "website": "http://upnext.io",
+      "startDate": "2014-06-01",
+      "summary": "Upnext is a software agency specializing in financial technology and Internet of Things applications.",
+      "highlights": [
+        "Developed and maintained two big applications: one being a loyalty system and second mobile terminal backend."
+
+      ]
+    },
+    {
+      "company": "Cubiware",
+      "position": "Software engineer",
+      "website": "http://cubiware.com",
+      "startDate": "2011-03-01",
+      "endDate": "2014-05-31",
+      "summary": "Cubiware is a provider of software solutions for IPTV/DVB devices and systems.",
+      "highlights": [
+        "Developed and maintained backend application for a digital television system deployed worldwide."
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Otwarte Klatki",
+      "position": "Co-Founder",
+      "website": "http://otwarteklatki.pl/",
+      "startDate": "2012-01-01",
+      "summary": "Global movement of free coding clubs for young people.",
+      "highlights": [
+        "Responsible for IT operations."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Warsaw University of Technology",
+      "area": "Electronics and Computer Engineering",
+      "studyType": "Master of Science",
+      "startDate": "2011-06-01",
+      "endDate": "2014-01-01"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Web Development",
+      "level": "Master",
+      "keywords": [
+        "Backend",
+        "HTTP",
+        "REST",
+        "SOAP"
+      ]
+    },
+    {
+      "name": "Ruby",
+      "level": "master",
+      "keywords": [
+        "Ruby on Rails",
+        "Sinatra",
+        "Celluloid"
+      ]
+    },
+    {
+      "name": "Databases",
+      "level": "advanced",
+      "keywords": [
+        "MySQL",
+        "PostgreSQL",
+        "MariaDB",
+        "Redis"
+      ]
+    },
+    {
+      "name": "Rust",
+      "level": "intermediate",
+      "keywords": [
+        "Rocket",
+        "Iron",
+        "Contributed to Cargo"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Polish",
+      "fluency": "Native speaker"
+    },
+    {
+      "language": "English",
+      "fluency": "Professional proficency"
+    },
+    {
+      "language": "Russian",
+      "fluency": "Beginner"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Photography",
+      "keywords": [
+        "Analog"
+      ]
+    },
+    {
+      "name": "History",
+      "keywords": [
+        "Russia",
+        "Communism",
+        "World War II"
+      ]
+    },
+    {
+      "name": "Music",
+      "keywords": [
+        "Contemporary",
+        "Hardcore/punk",
+        "Harsh noise"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "name": "Tomasz Wałkuski",
+      "reference": "Jakub, after joining Cubiware, quickly became one of the most valuable team members. Reliable, always eager to learn. It was a pleasure to work with him!"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Microbrust",
+      "description": "A Linux interface to Arturia Microbrute",
+      "highlights": [
+        "MIDI SysEx API reverse engineered",
+        "Written in Rust"
+      ],
+      "url": "https://github.com/jmatraszek/microbrust",
+      "type": "application"
+    },
+    {
+      "name": "Haxonite",
+      "description": "Rock-solid API mocking for hackers",
+      "highlights": [
+        "API mocking server",
+        "Written in Rust"
+      ],
+      "url": "https://github.com/jmatraszek/haxonite",
+      "type": "application"
+    }
+  ],
+  "meta": {
+    "canonical": "https://raw.githubusercontent.com/jmatraszek/jmatraszek.github.io/master/resume.json",
+    "version": "v1.0.0",
+    "lastModified": "2017-12-24T15:53:00"
+  }
+}
