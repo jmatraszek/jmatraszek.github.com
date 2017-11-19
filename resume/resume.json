@@ -66,7 +66,7 @@
       "position": "Co-Founder",
       "website": "http://otwarteklatki.pl/",
       "startDate": "2012-01-01",
-      "summary": "Global movement of free coding clubs for young people.",
+      "summary": "International animal advocacy group with particular focus on Central and Eastern Europe. From investigations to corporate outreach.",
       "highlights": [
         "Responsible for IT operations."
       ]
@@ -77,8 +77,8 @@
       "institution": "Warsaw University of Technology",
       "area": "Electronics and Computer Engineering",
       "studyType": "Master of Science",
-      "startDate": "2011-06-01",
-      "endDate": "2014-01-01"
+      "startDate": "2006-02-20",
+      "endDate": "2012-03-30"
     }
   ],
   "skills": [
@@ -163,6 +163,10 @@
     {
       "name": "Tomasz Wałkuski",
       "reference": "Jakub, after joining Cubiware, quickly became one of the most valuable team members. Reliable, always eager to learn. It was a pleasure to work with him!"
+    },
+    {
+      "name": "Dobrosława Gogłoza",
+      "reference": "Jakub is one of the co-founders of Otwarte Klatki. He is in charge of IT and has always worked hard to allow Otwarte Klatki, currently an international organization, to grow. His knowledge and work allowed us to focus on what mattered most rather than worry about technical stuff. Jakub is a team player, but he is not afraid to go against the flow when he belives this will benefit the whole team."
     }
   ],
   "projects": [
@@ -190,6 +194,6 @@
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jmatraszek/jmatraszek.github.io/master/resume.json",
     "version": "v1.0.0",
-    "lastModified": "2017-12-24T15:53:00"
+    "lastModified": "2017-11-19T17:16:12"
   }
 }
