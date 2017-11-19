@@ -13,6 +13,8 @@ update-last-modified:
     sed -ri "s/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2})\:([0-9]{2})\:([0-9]{2})/$(date -u +"%Y-%m-%dT%H:%M:%S")/" resume/resume.json
 
 deploy: update-last-modified build
+    git ci -m "Bump lastModified in resume.json"
+    git push origin source
 
 
 clean:
