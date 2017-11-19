@@ -16,7 +16,7 @@ deploy: update-last-modified build
     git add resume/resume.json
     git commit -m "Bump lastModified in resume.json"
     git push origin source
-    cobalt import --master
+    cobalt import --branch master
     git checkout master
     git push origin master
     git checkout source
