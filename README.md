@@ -6,6 +6,7 @@ cargo install just
 sudo aura -A nodejs-hackmyresume
 git clone https://github.com/jmatraszek/jsonresume-theme-slick
 cd jsonresume-theme-slick
+sudo npm update
 sudo npm install -g
 ```
 
