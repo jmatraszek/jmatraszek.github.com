@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>matraszek.net - Rust 2018</title>
+   <link rel="stylesheet" type="text/css" href="/css/style.css" >
+   <link rel="alternate" type="application/atom+xml" href="/rss.xml" title="RSS">
+</head>
+<body data-route=>
+
+<div class="container">
+<header class="masthead">
+   <h3 class="masthead-title">
+     <a href="/">matraszek.net</a>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/posts/">Blog</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/projects/">Projects</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/resume/">Résumé</a>
+     </small>
+     <small>
+       &nbsp;&nbsp;&nbsp;<a href="/rss.xml">Feed</a>
+     </small>
+   </h3>
+</header>
+
+<div id="content">
+  <h1>Rust 2018</h1>
+<p>To make Rust even better, the core team asked the Rust community to desribe in blog posts how they see Rust developing in 2018. Here's my vision.</p>
+<h2>Knowing what users need</h2>
+<p>I am pretty amazed that the Rust team always tries to get information about Rust usage from its users. Having a great vision is important, but it may not be enough to succeed. It is crucial to convince people to use Rust, and to know how to do that, we must take the perspective of the people who DO NOT use Rust. Doing that, we may learn how to change Rust/formulate our message so it will resonate with people who are not yet Rustaceans. We have surveys and blog notes and those are great, but I am afraid that they can be biased. I am not yet sure how it should look like — maybe reaching out to the people with the power to choose the technology hey want to use who decided to use something different than Rust, maybe surveys that only target non-users of Rust, maybe something else. We have a <em>rewrite it in Rust</em> meme. Let's make 2018 a year of not asking people to rewrite it in Rust, but asking <strong>why they didn't</strong>.</p>
+<h2>Ecosystem depending on nightly</h2>
+<p>One of the things that strike me when I talk with my colleagues about using Rust, is that they always shudder when they find out that some key parts of Rust's ecosystem require using nightly. For us nightly may seem to be very &quot;stable&quot;, but for a lot of people it's a giant red sign. And I think that my confidence in using nightly is driven by my enthusiasm for Rust — that's something we cannot expect from potential newcomers. Of course, we can calm them down with feature gates etc., but we need confidence in our Rust advocacy, not mere mitigations for someone elses fears. I think that Rust gained momentum in 2017 and there are a lot of people interested in Rust, but I am afraid that we may lose that if we show that we are not yet ready for enterprise take off.</p>
+<p>I always thought that it is better to dream big, so my dream for Rust's future is: <strong>no important crate depending on nightly</strong>. Do you need Rust on microcontrollers? We have everything in stable. Do you want a web framework <del>almost</del> (once again — dream big!) as productive as Rails? Have one, it works with stable. Need some tooling to help you in your workflow, linter, formatter, IDE integration? Stable compiler is all you need. The crate you are trying to use requires nightly? Well, use some other one, this one was developed to research the potential changes in Rust itself, not to be used in day to day work.</p>
+<h2>impl Period even more welcoming</h2>
+<p>Imple Period was great! I wanted to participate, but life verified those plans. However, I was quite intimidated to waste someone's time on helping me setup my environment. I knew that I am not able to work on a regular basis. I was not even sure if I will be able to do any work at all, maybe hacking on a compiler would be too difficult for me. It would be great to have some step-by-step guide to setup everything. <a href="https://japaric.github.io/discovery/">Introductory course to Discovery Board</a> by Jorge Aparicio is the perfect example. I was able to do everything on my own — order the hardware, copy-paste some commands to setup environment, compile and run some examples and I was able to do that without asking a single question. It seems that this is already addressed by a <a href="https://internals.rust-lang.org/t/so-you-want-to-hack-on-the-rust-compiler-a-plan-for-a-book/6497">“So you want to hack on the Rust compiler?”</a> book, but maybe other projects could do something similar — provide some hints to ease the first steps.</p>
+
+</div>
+
+</div><!-- .container -->
+  <footer>
+  <hr>
+  <p>
+    <a href="/license/">CC BY-SA 4.0 / MIT / PD</a>
+    -
+    Built with <a href="https://github.com/cobalt-org/cobalt.rs">Cobalt</a> using <a href="https://github.com/henrythemes/jekyll-minimal-theme">jekyll-minimal-theme</a>.
+  </p>
+  <br>
+</footer>
+
+</body>
+</html>
