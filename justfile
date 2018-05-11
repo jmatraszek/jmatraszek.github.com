@@ -22,9 +22,11 @@ deploy-resume: update-last-modified build-resume deploy
 deploy-blog: build-blog deploy
 
 deploy:
+    git checkout master
+    git pull origin master
+    git checkout source
     git push origin source
     cobalt import --branch master
-    git checkout master
     git push origin master
     git checkout source
 
