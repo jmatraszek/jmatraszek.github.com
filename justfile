@@ -1,26 +1,32 @@
+check-branch:
+    if [ `git rev-parse --abbrev-ref HEAD` != "source" ]; then echo "Not on source branch..." && exit 1; fi
+
 build: build-blog build-resume
 
-build-blog:
+build-blog: check-branch
     cobalt build
 
-build-resume:
+build-resume: check-branch
     mkdir -p build/resume
     hackmyresume BUILD resume/resume.json TO resume.html -t /usr/lib/node_modules/jsonresume-theme-slick/
     mv resume.html build/resume/index.html
     cp resume/jakubmatraszek.jpg build/resume/jakubmatraszek.jpg
 
-update-last-modified:
+update-last-modified: check-branch
     sed -ri "s/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2})\:([0-9]{2})\:([0-9]{2})/$(date -u +"%Y-%m-%dT%H:%M:%S")/" resume/resume.json
-
-deploy: update-last-modified build
     git add resume/resume.json
     git commit -m "Bump lastModified in resume.json"
+
+deploy-resume: update-last-modified build-resume deploy
+
+deploy-blog: build-blog deploy
+
+deploy:
     git push origin source
     cobalt import --branch master
     git checkout master
     git push origin master
     git checkout source
-
 
 clean:
     rm -rf build
