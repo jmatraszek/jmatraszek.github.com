@@ -27,6 +27,7 @@ deploy:
     git checkout source
     git push origin source
     cobalt import --branch master
+    git checkout master
     git push origin master
     git checkout source
 
