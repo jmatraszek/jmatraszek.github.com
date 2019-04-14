@@ -29,7 +29,6 @@ deploy:
     ghp --branch master --message "Build site" build
     git checkout master
     git push origin master
-    git checkout source
 
 clean:
     rm -rf build
