@@ -3,6 +3,7 @@
 ```
 cargo install cobalt-bin
 cargo install just
+cargo install ghp
 sudo aura -A nodejs-hackmyresume
 git clone https://github.com/jmatraszek/jsonresume-theme-slick
 cd jsonresume-theme-slick

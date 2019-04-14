@@ -26,8 +26,10 @@ deploy:
     git pull origin master
     git checkout source
     git push origin source
-    cobalt import --branch master
-    git push origin master:master
+    ghp --branch master --message "Build site" build
+    git checkout master
+    git push origin master
+    git checkout source
 
 clean:
     rm -rf build
