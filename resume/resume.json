@@ -7,12 +7,6 @@
     "phone": "(+48) 500 543 155",
     "website": "http://matraszek.net",
     "summary": "Backend developer with 7+ years of professional experience. Loves working on big, legacy systems with complicated business logic. Co-founder of one of the most efficient and fastest-growing animal advocacy group in Europe. Proficient with Ruby, but eager to learn something new. Currently investing his free time to master Rust.",
-    "location": {
-      "address": "ul. Bródnowska 12A/10",
-      "postalCode": "03-439",
-      "city": "Warsaw",
-      "countryCode": "PL"
-    },
     "profiles": [
       {
         "network": "Twitter",
