@@ -1,7 +1,7 @@
-extends: default.liquid
+---
+layout: default.liquid
 title: Projects
-path: projects/
-route: projects
+permalink: /projects/
 ---
 
 ## Projects

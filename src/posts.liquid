@@ -1,18 +1,18 @@
-extends: default.liquid
+---
+layout: default.liquid
 title: Blog
-path: posts/
-route: posts
+permalink: /posts/
 ---
 
-<h1>{{ title }}</h1>
+<h1>Blog</h1>
 
-{% for post in posts %}
+{% for post in collections.posts.pages %}
 
 <div>
-  {{ post.date | date: "%b %-d, %Y" }}
+  {{ post.published_date | date: "%b %-d, %Y" }}
     »
   <span class='post-title'>
-    <a href="/{{ post.path }}">{{ post.title }}</a>
+    <a href="/{{ post.permalink }}">{{ post.title }}</a>
   </span>
 </div>
 

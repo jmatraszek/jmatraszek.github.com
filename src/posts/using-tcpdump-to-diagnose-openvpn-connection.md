@@ -1,7 +1,7 @@
-extends: default.liquid
-
+---
+layout: default.liquid
 title: Using tcpdump to diagnose OpenVPN connection
-date: 14 December 2017 21:19:00 +0100
+published_date: 2017-12-24 21:19:00 +0100
 ---
 
 Using tcpdump to diagnose OpenVPN connection

@@ -1,0 +1,16 @@
+source: "src"
+destination: "build"
+ignore:
+  - .git/*
+  - build/*
+  - README.md
+  - src/**/*.sw*
+
+site:
+  title: matraszek.dev
+  description: Jakub Matraszek
+  base_url: https://matraszek.dev
+
+posts:
+  drafts_dir: _drafts
+  rss: rss.xml

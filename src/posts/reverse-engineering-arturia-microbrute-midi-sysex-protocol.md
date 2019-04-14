@@ -1,7 +1,7 @@
-extends: default.liquid
-
+---
+layout: default.liquid
 title: Reverse engineering Arturia Microbrute MIDI SysEx protocol
-date: 27 September 2016 01:09:00 +0100
+published_date: 2016-09-27 01:09:00 +0100
 ---
 
 Reverse engineering Arturia Microbrute MIDI SysEx protocol

@@ -1,7 +1,7 @@
-extends: default.liquid
-
+---
+layout: default.liquid
 title: License
-path:  license/
+permalink: /license/
 ---
 
 # License
