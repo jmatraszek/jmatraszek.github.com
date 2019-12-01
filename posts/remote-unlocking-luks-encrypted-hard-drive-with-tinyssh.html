@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>matraszek.dev - Remote unlocking LUKS-encrypted hard drive with TinySSH</title>
+   <link rel="stylesheet" type="text/css" href="https://matraszek.dev/css/style.css" >
+   <link rel="alternate" type="application/atom+xml" href="https://matraszek.dev/rss.xml" title="RSS">
+   <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+</head>
+<body>
+
+<div class="container">
+<header class="masthead">
+   <h3 class="masthead-title">
+     <a href="/">matraszek.dev</a>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/posts/">Blog</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/projects/">Projects</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/resume/">Résumé</a>
+     </small>
+     <small>
+       &nbsp;&nbsp;&nbsp;<a href="/rss.xml">Feed</a>
+     </small>
+   </h3>
+</header>
+
+<div id="content">
+  <h1>Remote unlocking LUKS-encrypted hard drive with TinySSH</h1>
+<p>One of the pain points of having hard drive encrypted with LUKS was that I could not unlock the drive remotely. Finally, I found some time to configure this on my system, so here is the walkthrough (please note that this may slightly differ on your system).</p>
+<p>First, install the dependencies. <code>mkinitcpio-*</code> packages are the <code>mkinitcpio</code> hooks, <code>tinyssh-convert</code> is used to convert Ed25519 public keys from the format used by OpenSSH to the one used by TinySSH.</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">sudo pacman -S mkinitcpio-netconf mkinitcpio-tinyssh mkinitcpio-utils
+</span></pre>
+<p>Next, we have to configure hooks in <code>/etc/mkinitcpio.conf</code>. We should already have something like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">HOOKS=&quot;base udev autodetect keyboard keymap consolefont modconf block encrypt lvm2 filesystems fsck&quot;
+</span></pre>
+<p>We have to add <code>netconf</code> and <code>tinyssh</code> hooks before <code>encrypt</code> and change <code>encrypt</code> to <code>encryptssh</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">HOOKS=&quot;base udev autodetect keyboard keymap consolefont modconf block netconf tinyssh encryptssh lvm2 filesystems fsck&quot;
+</span></pre>
+<p>Before rebuilding initrd image we have to add the public keys we will use to log in (the keys are included in the image, so we have to rebuild it every time we add new keys):</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">cp path/to/public/keys.pub /etc/tinyssh/root_key
+</span></pre>
+<p>You can add a single key, or just copy <code>~/.ssh/authorized_keys</code> (but remember to always inspect the keys and only add the ones you will use). Please note that TinySSH only supports Ed25519 or ECDSA keys, so you will have to generate one if you use RSA (and you probably should upgrade them to Ed25519 anyway, so maybe it's a good excuse to <a href="https://blog.g3rt.nl/upgrade-your-ssh-keys.html">migrate away from RSA</a>).</p>
+<p>Now, we can rebuild the image:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">mkinitcpio -p linux
+</span></pre>
+<p>Next, we have to add a kernel command line parameter to configure Ethernet interface. Please note that you have to use kernel device names, not udev's. For most cases this will just be <code>eth0</code>, but if you use more then one network card (like me) and are unsure which kernel name to use, you can run <code>ip a</code> to find out udev device names and then <code>dmesg | grep eth</code> to find out kernel device names:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">[   25.548268 ] r8169 0000:03:00.0 enp3s0: renamed from eth0
+</span><span style="background-color:#2b303b;color:#c0c5ce;">[   25.565145 ] r8169 0000:05:00.0 enp5s0: renamed from eth1
+</span></pre>
+<p>In my case it was <code>eth1</code>. Edit <code>/etc/default/grub</code> and modify <code>GRUB_CMDLINE_LINUX</code> to look like this (note the <code>ip=::::...</code> part):</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">GRUB_CMDLINE_LINUX=&quot;cryptdevice=UUID=aaaaaaaa-bbbb-4ccc-dddd-eeeeeeeeeeee:cryptolvm root=/dev/mapper/vgroup-root ip=:::::eth1:dhcp&quot;
+</span></pre>
+<p>I have IP address statically allocated on my router, so I used DHCP. You can also use static IP (for <code>eth0</code>):
+<code>ip=192.168.1.2:::::eth0:none</code> or static IP with gateway and netmask specified: <code>ip=192.168.1.2::192.168.1.1:255.255.255.0::eth0:none</code></p>
+<p>With <code>ip</code> parameter configured we can build GRUB configuration with <code>grub-mkconfig -o /boot/grub/grub.cfg</code>.</p>
+<p>You can now reboot your machine and ssh to it (using <code>root</code> account) to unlock it.</p>
+<p>You can get a host key verification failure, because server keys of TinySSH and OpenSSH differ and have different fingerprints. Some people advise to disable host verification or configure SSH to use <code>/dev/null</code> for this particular host — however, this is a bad idea. The better solution is to set up a separate <code>known_hosts</code> file location. To do that, use something like this in your SSH config:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">Host remote-host-tinyssh
+</span><span style="background-color:#2b303b;color:#c0c5ce;">  </span><span style="background-color:#2b303b;color:#c0c5ce;">HostName remote-host.example.com
+</span><span style="background-color:#2b303b;color:#c0c5ce;">  </span><span style="background-color:#2b303b;color:#c0c5ce;">User root
+</span><span style="background-color:#2b303b;color:#c0c5ce;">  </span><span style="background-color:#2b303b;color:#c0c5ce;">UserKnownHostsFile /home/user/.ssh/known_hosts.tinyssh
+</span></pre>
+<p>This configuration gives you an easy way to remotely unlock your machine.</p>
+
+</div>
+
+</div><!-- .container -->
+  <footer>
+  <hr>
+  <p>
+    <a href="/license/">CC BY-SA 4.0 / MIT / PD</a>
+    -
+    Built with <a href="https://github.com/cobalt-org/cobalt.rs">Cobalt</a> using <a href="https://github.com/henrythemes/jekyll-minimal-theme">jekyll-minimal-theme</a>.
+  </p>
+  <br>
+</footer>
+
+</body>
+</html>
