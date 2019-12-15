@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>matraszek.dev - Cisco Catalyst 2960-X factory reset and firmware upgrade</title>
+   <link rel="stylesheet" type="text/css" href="https://matraszek.dev/css/style.css" >
+   <link rel="alternate" type="application/atom+xml" href="https://matraszek.dev/rss.xml" title="RSS">
+   <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+</head>
+<body>
+
+<div class="container">
+<header class="masthead">
+   <h3 class="masthead-title">
+     <a href="/">matraszek.dev</a>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/posts/">Blog</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/projects/">Projects</a>
+     </small>
+     <small>
+        &nbsp;&nbsp;&nbsp;<a href="/resume/">Résumé</a>
+     </small>
+     <small>
+       &nbsp;&nbsp;&nbsp;<a href="/rss.xml">Feed</a>
+     </small>
+   </h3>
+</header>
+
+<div id="content">
+  <h1>Cisco Catalyst 2960-X factory reset and firmware upgrade</h1>
+<p>Some time ago, I got a second-hand Cisco Catalyst 2960-X-48TS-L switch for a good price. I’ve never had a chance to use Cisco appliances, so I thought it would be a good chance to learn their software. At first, I was a little bit lost due to a large amount of information scattered all around the Internet, so I thought I’ll write a step-by-step guide.</p>
+<p>The switch was used previously, so I had to restore it to factory defaults. There are two ways to do it: either by resetting the switch using the MODE button or by IOS command line. To reset by button: turn on the switch and wait until switch is fully booted — it’s indicated by green LEDs “SYST”, “STAT” and “MAST”. Then press the MODE button until the LEDs start blinking. The switch will then restart, erasing the configuration. To erase the config using the command line you’ll have to use serial console cable (and probably a RS-232 to USB converter) and know the privileged EXEC password. To connect to the serial port I recommend using <code>picocom</code>.</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">picocom -b 9600 -g logfile.log /dev/ttyUSB0
+</span></pre>
+<p>Then you can erase the config:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">&gt; enable
+</span><span style="background-color:#2b303b;color:#c0c5ce;"># write erase
+</span><span style="background-color:#2b303b;color:#c0c5ce;"># delete vlan.dat
+</span><span style="background-color:#2b303b;color:#c0c5ce;"># reload
+</span></pre>
+<p>Switch will now reboot. You can then connect to its serial console and an automatic configuration wizard will run. You’ll be asked a couple of questions to configure the switch — set the hostname (whatever you like), set the passwords (something non-trivial), set the management interface (<code>vlan1</code>), configure SNMP (I do not have experience with that, so I skipped it, if you need it, you probably know how to configure it).</p>
+<p>Next, I had to upgrade the firmware. The switch probably hasn’t been upgraded before. It had a web interface that was a couple of years old and required Internet Explorer (although it worked just fine when I spoofed the user agent).</p>
+<p>To upgrade the switch I had to download the firmware from <a href="https://software.cisco.com/download/home/284795739/type/280805680/release/15.2.7E1">here</a>.
+This is the latest release at the time of writing this post (December 2019). I’ve decided to upgrade full image, including the web interface, so the method in this post will do exactly that. If you want to install only IOS version, you’ll need to use <code>copy</code> command, instead of <code>archive</code>.</p>
+<p>You’ll need to set up a TFTP server to host the image and TFTP server has to be reachable from the switch. Then, log in to the switch through console and run:</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;"># archive download-sw /overwrite /reload tftp://192.168.0.100/c2960x-universalk9-tar.152-7.E1.tar
+</span></pre>
+<p>Where <code>192.168.0.100</code> is the TFTP server’s IP and <code>c2960x-universalk9-tar.152-7.E1.tar</code> is the firmware filename.</p>
+<p>The upgrade process will take a while, but finally the switch will reboot.</p>
+<p>There are still some things left to configure. The switch will, by default, try to download configuration from TFTP server. This will fail with an error message saying</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;">%SYS-4-CONFIG_RESOLVE_FAILURE: System config parse
+</span><span style="background-color:#2b303b;color:#c0c5ce;">from (tftp://255.255.255.255/network-confg) failed
+</span></pre>
+<p>Since the configuration is not available there, we will have to disable that.</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;"># configure terminal
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# no service config
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# exit
+</span><span style="background-color:#2b303b;color:#c0c5ce;"># write memory
+</span></pre>
+<p>Next, we have to disable telnet access and only allow ssh access.</p>
+<pre style="background-color:#2b303b;">
+<span style="background-color:#2b303b;color:#c0c5ce;"># configure terminal
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# ip domain-name yourdomain
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# crypto key generate rsa
+</span><span style="background-color:#2b303b;color:#c0c5ce;">How many bits in the modulus [512]: 4096
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# ip ssh time-out 60
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# ip ssh authentication-retries 4
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# username cisco password YOURPASSWORD
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config)# line vty 0 15
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config-line)# transport input ssh
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config-line)# login local
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config-line)# logging synchronous
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config-line)# motd-banner
+</span><span style="background-color:#2b303b;color:#c0c5ce;">(config-line)# ^Z
+</span><span style="background-color:#2b303b;color:#c0c5ce;"># write memory
+</span></pre>
+<p>Now, you should have a Cisco switch running the fresh firmware. Even the web UI does not require you to run an ancient version of Internet Explorer to access it. ;)</p>
+<p><img src="/images/cisco-c2960x-48ts-l-webui.png" alt="Cisco Catalyst 2960-X-48TS-L running WebUI ver. 15.2(7)E1" /></p>
+
+</div>
+
+</div><!-- .container -->
+  <footer>
+  <hr>
+  <p>
+    <a href="/license/">CC BY-SA 4.0 / MIT / PD</a>
+    -
+    Built with <a href="https://github.com/cobalt-org/cobalt.rs">Cobalt</a> using <a href="https://github.com/henrythemes/jekyll-minimal-theme">jekyll-minimal-theme</a>.
+  </p>
+  <br>
+</footer>
+
+</body>
+</html>
