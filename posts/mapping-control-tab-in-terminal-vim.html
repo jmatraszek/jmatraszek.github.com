@@ -6,6 +6,7 @@
    <link rel="stylesheet" type="text/css" href="https://matraszek.dev/css/style.css" >
    <link rel="alternate" type="application/atom+xml" href="https://matraszek.dev/rss.xml" title="RSS">
    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+   <link rel="me" href="https://mastodon.social/@kubaxvx">
 </head>
 <body>
 
@@ -34,19 +35,19 @@
 <p>What is true, is the fact that there is no standard escape sequence for <code>C-Tab</code> or <code>C-S-Tab</code>, therefore terminals do quite reasonable thing and just send the escape sequence for <code>Tab</code> or <code>S-Tab</code>, respectively. Terminal applications only see the escape sequences, so they cannot differentiate between <code>Tab</code> and <code>C-Tab</code> — they receive the same escape sequence. We can, however, configure our terminal emulator to send a different escape sequence for <code>C-Tab</code>, than for <code>Tab</code> and then handle this properly in terminal Vim.</p>
 <p>I use Alacritty, so I added the following two lines to <code>key_bindings</code> in <code>.config/alacritty/alacritty.yml</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="background-color:#2b303b;color:#c0c5ce;">  </span><span style="background-color:#2b303b;color:#c0c5ce;">- { key: Tab, mods: Control,       chars: &quot;\x1b[1;5I&quot; }
-</span><span style="background-color:#2b303b;color:#c0c5ce;">  </span><span style="background-color:#2b303b;color:#c0c5ce;">- { key: Tab, mods: Control|Shift, chars: &quot;\x1b[1;6I&quot; }
-</span></pre>
+<code><span style="color:#c0c5ce;">  - { key: Tab, mods: Control,       chars: &quot;\x1b[1;5I&quot; }
+</span><span style="color:#c0c5ce;">  - { key: Tab, mods: Control|Shift, chars: &quot;\x1b[1;6I&quot; }
+</span></code></pre>
 <p>This tells alacritty to send escape sequence <code>^[[1;5I</code> when we press <code>C-Tab</code>. We can check that by running <code>sed -n l</code>, press the required key sequence followed by an Enter (keep in mind that <code>^[</code>, <code>\x1b</code> and <code>\033</code> is just the escape sequence written in a different way).</p>
 <p>Now, we have to handle that in Vim. Vim has its own keycodes and automatically assigns terminal escape sequences to them. Our custom escape sequences are not handled that way, so we have to assigne them manually. We can assign custom escape sequences using <code>set</code> command, but the Vim keycodes one can assign to are limited to the keycodes listed <a href="http://vimdoc.sourceforge.net/htmldoc/term.html#t_ku">here</a>. Unfortunatelly, <code>&lt;C-Tab&gt;</code> and <code>&lt;C-S-Tab&gt;</code> are not listed there, so it means we cannot assign escape sequence to them. We have to pick some other, unused, keycode (I used <code>&lt;F15&gt;</code>), assign the escape sequence and create a mapping between <code>&lt;F15&gt;</code> and <code>&lt;C-Tab&gt;</code>, so Vim treats those keycodes the same way:</p>
 <pre style="background-color:#2b303b;">
-<span style="background-color:#2b303b;color:#c0c5ce;">set &lt;F15&gt;=^[[1;5I
-</span><span style="background-color:#2b303b;color:#c0c5ce;">set &lt;F16&gt;=^[[1;6I
-</span><span style="background-color:#2b303b;color:#c0c5ce;">nmap &lt;F15&gt; &lt;C-Tab&gt;
-</span><span style="background-color:#2b303b;color:#c0c5ce;">nmap &lt;F16&gt; &lt;C-S-Tab&gt;
-</span><span style="background-color:#2b303b;color:#c0c5ce;">imap &lt;F15&gt; &lt;C-Tab&gt;
-</span><span style="background-color:#2b303b;color:#c0c5ce;">imap &lt;F16&gt; &lt;C-S-Tab&gt;
-</span></pre>
+<code><span style="color:#c0c5ce;">set &lt;F15&gt;=^[[1;5I
+</span><span style="color:#c0c5ce;">set &lt;F16&gt;=^[[1;6I
+</span><span style="color:#c0c5ce;">nmap &lt;F15&gt; &lt;C-Tab&gt;
+</span><span style="color:#c0c5ce;">nmap &lt;F16&gt; &lt;C-S-Tab&gt;
+</span><span style="color:#c0c5ce;">imap &lt;F15&gt; &lt;C-Tab&gt;
+</span><span style="color:#c0c5ce;">imap &lt;F16&gt; &lt;C-S-Tab&gt;
+</span></code></pre>
 <p>IMPORTANT: Please note, that you have to input the actual escape sequence, not just write individual characters <code>^[</code>. To do that enter insert mode, press <code>C-V</code> and follow this with <code>Esc</code> (this will insert just the escape escape sequence) and manully insert the rest of the escape sequence or with <code>C-Tab</code> (this will insert the whole escape sequence).</p>
 <p>You can read more on mapping keycodes in Vim <a href="https://vim.fandom.com/wiki/Mapping_fast_keycodes_in_terminal_Vim">here</a>.</p>
 
