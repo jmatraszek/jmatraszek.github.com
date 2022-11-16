@@ -1,7 +1,7 @@
 check-branch:
     if [ `git rev-parse --abbrev-ref HEAD` != "source" ]; then echo "Not on source branch..." && exit 1; fi
 
-build: build-blog build-resume
+build: build-blog # build-resume
 
 build-blog: check-branch
     cobalt build
